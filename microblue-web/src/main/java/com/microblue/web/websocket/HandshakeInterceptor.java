@@ -9,6 +9,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 /**
  * 握手拦截器
@@ -16,7 +17,7 @@ import org.springframework.web.socket.WebSocketHandler;
  * @author liujiang
  *
  */
-public class HandshakeInterceptor implements org.springframework.web.socket.server.HandshakeInterceptor
+public class HandshakeInterceptor implements org.springframework.web.socket.server.HandshakeInterceptor 
 {
 
 	// 初次握手访问前
@@ -24,6 +25,7 @@ public class HandshakeInterceptor implements org.springframework.web.socket.serv
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse serverHttpResponse,
 			WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception
 	{
+		System.out.println("beforeHandshake");
 		if (request instanceof ServletServerHttpRequest)
 		{
 			HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
@@ -38,11 +40,13 @@ public class HandshakeInterceptor implements org.springframework.web.socket.serv
 		return true;
 	}
 
+	
 	// 初次握手访问后
 	@Override
 	public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse,
 			WebSocketHandler webSocketHandler, Exception e)
 	{
 
+		System.out.println("afterHandshake");
 	}
 }

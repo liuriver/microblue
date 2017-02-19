@@ -64,15 +64,21 @@
             <param-value>classpath:spring-websocket.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
      <servlet-mapping>
 		<servlet-name>websocket</servlet-name>
-		<url-pattern>/websocket/*</url-pattern>
+		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
+	 <servlet-mapping>
 		<servlet-name>websocket</servlet-name>
 		<url-pattern>/sockjs/*</url-pattern>
 	</servlet-mapping>
+	 <servlet-mapping>
+		<servlet-name>websocket</servlet-name>
+		<url-pattern>/websocket/*</url-pattern>
+	</servlet-mapping>
+	
      
     <listener>
     	<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
@@ -86,7 +92,7 @@
     </session-config>
 
 
-    <welcome-file-list>
+   <!--  <welcome-file-list>
         <welcome-file>/index.html</welcome-file>
-    </welcome-file-list>
+    </welcome-file-list> -->
 </web-app>

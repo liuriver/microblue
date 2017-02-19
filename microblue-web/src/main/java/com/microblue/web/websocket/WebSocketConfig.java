@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.invocation.HandlerMethodArgumentRes
 import org.springframework.messaging.handler.invocation.HandlerMethodReturnValueHandler;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -21,13 +22,15 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
  */
 @Configuration
 @EnableWebSocketMessageBroker
+@EnableWebMvc
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
 {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry)
 	{
 		// 添加这个Endpoint，这样在网页中就可以通过websocket连接上服务了
-		registry.addEndpoint("/echo").withSockJS();
+		registry.addEndpoint("/websocket").withSockJS();
+		System.out.println("registerStompEndpoints");
 	}
 
 	@Override
@@ -35,8 +38,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
 	{
 		System.out.println("服务器启动成功");
 		// 这里设置的simple broker是指可以订阅的地址，也就是服务器可以发送的地址
-		config.enableSimpleBroker("/echo","/userChat", "/initChat", "/initFushionChart", "/updateChart", "/videoChat");
+		config.enableSimpleBroker("/info","/userChat", "/initChat", "/initFushionChart", "/updateChart", "/videoChat");
 		config.setApplicationDestinationPrefixes("/app");
+		System.out.println("configureMessageBroker");
 	}
 
 	@Override

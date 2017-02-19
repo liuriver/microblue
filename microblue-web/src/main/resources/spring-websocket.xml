@@ -20,7 +20,6 @@
 
     
     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
-    <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" -->
      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/"
           p:suffix=".html"/>
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
@@ -96,10 +95,18 @@
 
   -->
   <!-- websocket消息处理bean -->
-  <bean id="websocket" class="com.microblue.web.websocket.WebSocketHander"/>
-  <websocket:handlers allowed-origins="*">
+  <bean id="websocket" class="com.microblue.web.websocket.MyWebSocketHandler"/>
+  <websocket:handlers allowed-origins="http://localhost:8080">
   <!-- 配置消息处理bean和路径的映射关系 -->
-	<websocket:mapping path="echo*" handler="websocket" />
+	<websocket:mapping path="" handler="websocket" />
+	<!--配置握手拦截器 -->
+	<websocket:handshake-interceptors>
+		<bean class="com.microblue.web.websocket.HandshakeInterceptor" />
+	</websocket:handshake-interceptors>
+</websocket:handlers>
+<websocket:handlers allowed-origins="http://localhost:8080">
+  <!-- 配置消息处理bean和路径的映射关系 -->
+	<websocket:mapping path="websocket*" handler="websocket" />
 	<!--配置握手拦截器 -->
 	<websocket:handshake-interceptors>
 		<bean class="com.microblue.web.websocket.HandshakeInterceptor" />
