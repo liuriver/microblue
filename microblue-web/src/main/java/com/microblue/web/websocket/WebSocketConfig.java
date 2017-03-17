@@ -38,7 +38,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
 	{
 		System.out.println("服务器启动成功");
 		// 这里设置的simple broker是指可以订阅的地址，也就是服务器可以发送的地址
-		config.enableSimpleBroker("/info","/userChat", "/initChat", "/initFushionChart", "/updateChart", "/videoChat");
+		config.enableSimpleBroker("/info", "/userChat", "/initChat", "/initFushionChart", "/updateChart", "/videoChat");
 		config.setApplicationDestinationPrefixes("/app");
 		System.out.println("configureMessageBroker");
 	}

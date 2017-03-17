@@ -3,15 +3,14 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ModelInfoDaoImpl">
 	<!-- mapping -->
-	<!-- <resultMap id="userInfo" type="com.microvip.dal.entity.ModelInfo">
-		<result property="sanWei" column="san_wei" jdbcType="VARCHAR" /> 
-		<result property="headImage" column="head_image" jdbcType="VARCHAR" />  
-		<result property="createTime" column="create_time" jdbcType="VARCHAR" /> 
-		<result property="modifyTime" column="modify_time" jdbcType="VARCHAR" /> 
-		<result property="synchStatus" column="synch_status" jdbcType="VARCHAR" /> 
+	 <resultMap id="userInfo" type="com.microblue.dal.entity.UserInfo">
+		<result property="userName" column="user_name" jdbcType="VARCHAR" /> 
+		<result property="password" column="password" jdbcType="VARCHAR" />  
+		<result property="createTime" column="create_time" jdbcType="DATETIME" /> 
+		<result property="modifyTime" column="modify_time" jdbcType="DATETIME" /> 
 		<result property="isDeleted" column="is_deleted" jdbcType="INTEGER" /> 
-		<result property="wxNo" column="wx_no" jdbcType="VARCHAR" />
-		<result property="openId" column="open_id" jdbcType="VARCHAR" />  
+		<result property="mobilePhone" column="mobile_phone" jdbcType="INTEGER" /> 
+		<result property="isLogin" column="is_login" jdbcType="INTEGER" />  
 	</resultMap>
 	<sql id="selectColumns"> 
 		id,open_id,nick,wx_no,birth,height,weight,san_wei,age,sex,province,city,area,head_image,phone,password,salt 
@@ -19,7 +18,7 @@
 	<sql id="addColums"> 
 		open_id,nick,wx_no,birth,height,weight,san_wei,age,sex,province,city,area,head_image,phone,sort,is_deleted,synch_status,password,salt 
 	</sql>
-
+<!--
 
 	分页查询审核通过的用户信息
 	<select id="queryModelListByPage" parameterType="com.microvip.dal.entity.query.QueryCondition"

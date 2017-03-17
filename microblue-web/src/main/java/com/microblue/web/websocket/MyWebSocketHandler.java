@@ -42,7 +42,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler
 	public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception
 	{
 		sendMessageToUsers(new TextMessage(webSocketMessage.getPayload() + ""));
-		
+
 		System.out.println(webSocketMessage.getPayload().toString());
 	}
 
