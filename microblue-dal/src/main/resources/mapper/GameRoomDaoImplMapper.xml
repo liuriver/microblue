@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="UserDaoImpl">
+<mapper namespace="GameRoomDaoImpl">
 	<!-- mapping -->
-	 <resultMap id="userInfo" type="com.microblue.dal.entity.UserInfo">
-		<result property="userName" column="user_name" jdbcType="VARCHAR" /> 
-		<result property="password" column="password" jdbcType="VARCHAR" />  
+	 <resultMap id="userInfo" type="com.microblue.dal.entity.GameRoomInfo">
+		<result property="startTime" column="start_time" jdbcType="VARCHAR" />
+		<result property="endTime" column="password" jdbcType="VARCHAR" />
 		<result property="createTime" column="create_time" jdbcType="DATE" /> 
 		<result property="modifyTime" column="modify_time" jdbcType="DATE" /> 
 		<result property="isDeleted" column="is_deleted" jdbcType="INTEGER" /> 

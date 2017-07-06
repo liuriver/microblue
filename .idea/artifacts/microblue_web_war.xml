@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="microblue-web:war">
+    <output-path>$PROJECT_DIR$/microblue-web/target</output-path>
+    <root id="archive" name="microblue-web.war">
+      <element id="artifact" artifact-name="microblue-web:war exploded" />
+    </root>
+  </artifact>
+</component>
