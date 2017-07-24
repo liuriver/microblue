@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          >
     <display-name>microblue</display-name>
-	<context-param>
+<!-- 	<context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:spring-db.xml</param-value>
-    </context-param>
+        <param-value>classpath*:spring-druid.xml</param-value>
+    </context-param> -->
     
     <!-- spring配置文件结束 -->
 	<!-- js和css的资源配置-->
@@ -17,7 +17,7 @@
         <url-pattern>/css/*</url-pattern>  
         <url-pattern>/images/*</url-pattern>  
         <url-pattern>/fonts/*</url-pattern> 
-        <url-pattern>/*.html</url-pattern>
+        <url-pattern>/WEB-INF/html/*</url-pattern>
     </servlet-mapping>
     <!-- springMVC配置结束 -->
  <!-- 配置字符集 -->
@@ -37,29 +37,36 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
-    <!-- springMVC配置 -->
-<!--     <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>
-            org.springframework.web.servlet.DispatcherServlet
-        </servlet-class>
-         <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-mvc.xml</param-value>
+    <!-- druid 监控 -->
+    <filter>
+        <filter-name>druidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>/assets/*,*.css,*.js,*.gif,*.jpg,*.png,*.ico,*.eot,*.svg,*.ttf,*.woff,*.jsp,*.tpl,/druid/*</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
+    </filter>
+    <filter-mapping>
+        <filter-name>druidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>druidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>*.htm</url-pattern>
-    </servlet-mapping> -->
+        <servlet-name>druidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
+    <!-- springMVC配置 -->
+
     <listener>
     	<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
     </listener>
-	<listener>
+<!-- 	<listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+    </listener> -->
     
     <session-config>
     	<session-timeout>180</session-timeout>

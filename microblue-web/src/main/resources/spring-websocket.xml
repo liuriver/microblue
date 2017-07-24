@@ -20,6 +20,7 @@
    <!-- 自动扫描 -->
 	<context:component-scan base-package="com.microblue" />
 	<context:annotation-config />
+	<import resource="classpath*:spring-druid.xml"/>
 	<bean id="jsonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 
@@ -33,7 +34,7 @@
 	</bean>
     
     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
-     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/"
+     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/html/"
           p:suffix=".html" p:viewClass="org.springframework.web.servlet.view.JstlView"/>
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
@@ -46,20 +47,15 @@
                     </property>
                 </bean>
                 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                    <property name="supportedMediaTypes">
-                        <list>
-                            <value>application/json; charset=UTF-8</value>
-                            <value>application/x-www-form-urlencoded; charset=UTF-8</value>
-                        </list>
-                    </property>
+                    
                 </bean>
 
             </list>
         </property>
     </bean>
- 
+
 	<!--配置文件加载 -->
-<!-- 	<bean id="propertyConfigurer"
+ 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
@@ -68,21 +64,36 @@
 			</list>
 		</property>
 	</bean>
-	 -->
+	
 	<!-- 定时任务 -->
 <!-- 	<import resource="applicationContext-schedule.xml" /> -->
 
 
-	
-	
+
+
 	 <!-- Multi-Action 用来标识method的变量名定义  上传文件start-->
 
    <!-- 上传文件end -->
     <aop:aspectj-autoproxy/>
-    
-    
 
-<!-- 
+    <!-- 配置druid监控spring jdbc -->
+    <bean id="druid-stat-interceptor"
+          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+          scope="prototype">
+        <property name="patterns">
+            <list>
+                <value>com.microblue.web.aop.druid.*</value>
+            </list>
+        </property>
+    </bean>
+   <aop:config>
+        <aop:advisor advice-ref="druid-stat-interceptor"
+                     pointcut-ref="druid-stat-pointcut" />
+    </aop:config>
+
+<!--
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"/>
         <property name="maxUploadSize" value="10485760000"/>

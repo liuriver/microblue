@@ -10,6 +10,7 @@ import com.microblue.dal.entity.UserInfo;
 @Service
 public class UserDaoImpl extends BaseDao implements UserDao
 {
+	private static final String userMapper = "UserDaoImplMapper.";
 	@Override
 	public int addUser(UserInfo user)
 	{
@@ -42,14 +43,19 @@ public class UserDaoImpl extends BaseDao implements UserDao
 	@Override
 	public UserInfo findByName(String name)
 	{
-		return this.getSqlSession().selectOne("", name);
+		UserInfo user = new UserInfo();
+		user.setUserName(name);
+		
+		return this.getSqlSession().selectOne(userMapper + "getUserByParams", user);
 	}
 
 	@Override
 	public List<UserInfo> findList(UserInfo user)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<UserInfo> selectList = this.getSqlSession().selectList(userMapper + "getUserByParams", user);
+		user.getUserName();
+		return selectList;
+
 	}
 
 	@Override

@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.microblue.biz.Service.UserService;
 
 @Controller
@@ -27,9 +30,11 @@ public class LoginController
 	}
 
 	@RequestMapping("/login")
-	public boolean login(@RequestParam("userName") String userName, @RequestParam("password") String password)
+	@ResponseBody
+	public String login(@RequestParam("userName") String userName, @RequestParam("password") String password)
 	{
-		return userService.Login(userName, password);
+		
+		return JSONObject.toJSONString(String.valueOf(userService.Login(userName, password)));
 		
 	}
 }

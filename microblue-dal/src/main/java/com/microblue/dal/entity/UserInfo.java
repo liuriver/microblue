@@ -12,7 +12,7 @@ public class UserInfo extends BaseEntity
 	/**
 	 * 手机
 	 */
-	private int mobilePhone;
+	private Integer mobilePhone;
 	
 	/**
 	 * 用户名
@@ -26,15 +26,15 @@ public class UserInfo extends BaseEntity
 	
 	
 	
-	private int isLogin;
+	private Integer isLogin;
 
 
-	public int getMobilePhone()
+	public Integer getMobilePhone()
 	{
 		return mobilePhone;
 	}
 
-	public void setMobilePhone(int mobilePhone)
+	public void setMobilePhone(Integer mobilePhone)
 	{
 		this.mobilePhone = mobilePhone;
 	}
@@ -60,12 +60,12 @@ public class UserInfo extends BaseEntity
 	}
 
 
-	public int getIsLogin()
+	public Integer getIsLogin()
 	{
 		return isLogin;
 	}
 
-	public void setIsLogin(int isLogin)
+	public void setIsLogin(Integer isLogin)
 	{
 		this.isLogin = isLogin;
 	}
@@ -74,6 +74,22 @@ public class UserInfo extends BaseEntity
 	public String tableName()
 	{
 		return "user_info";
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("UserInfo [mobilePhone=");
+		builder.append(mobilePhone);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", isLogin=");
+		builder.append(isLogin);
+		builder.append("]");
+		return builder.toString();
 	}
 	
 	

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="UserDaoImpl">
+<mapper namespace="UserDaoImplMapper">
 	<!-- mapping -->
 	 <resultMap id="userInfo" type="com.microblue.dal.entity.UserInfo">
+	 	<result property="id" column="id" jdbcType="INTEGER"/>
 		<result property="userName" column="user_name" jdbcType="VARCHAR" /> 
 		<result property="password" column="password" jdbcType="VARCHAR" />  
 		<result property="createTime" column="create_time" jdbcType="DATE" /> 
@@ -13,12 +14,40 @@
 		<result property="isLogin" column="is_login" jdbcType="INTEGER" />  
 	</resultMap>
 	<sql id="selectColumns"> 
-		id,open_id,nick,wx_no,birth,height,weight,san_wei,age,sex,province,city,area,head_image,phone,password,salt 
+		id,user_name,is_login,password,create_time,modify_time,is_deleted,mobile_phone 
 	</sql>
 	<sql id="addColums"> 
-		open_id,nick,wx_no,birth,height,weight,san_wei,age,sex,province,city,area,head_image,phone,sort,is_deleted,synch_status,password,salt 
+		user_name,is_login,password,create_time,modify_time,is_deleted,mobile_phone 
+	</sql>
+	
+	<sql id="whereCondition">
+		<if test="id != null and id !=''" >
+		and id = #{id}
+		</if>
+		<if test="userName != null and userName !=''" >
+		and user_name = #{userName}
+		</if>
+		<if test="isLogin != null" >
+		and is_login = #{isLogin}
+		</if>
+		<if test="password != null and password !=''" >
+		and password = #{password}
+		</if>
+		<if test="createTime != null and createTime !=''" >
+		and create_time = #{createTime}
+		</if>
+		<if test="modifyTime != null and modifyTime !=''" >
+		and modify_time = #{modifyTime}
+		</if>
+		<if test="isDeleted != null" >
+		and is_deleted = #{isDeleted}
+		</if>
+		<if test="mobilePhone != null and mobilePhone !=''" >
+		and mobile_phone = #{mobilePhone}
+		</if>
 	</sql>
 <!--
+.
 
 	分页查询审核通过的用户信息
 	<select id="queryModelListByPage" parameterType="com.microvip.dal.entity.query.QueryCondition"
@@ -36,8 +65,21 @@
         </if>
 		
 	</select>
+	 -->
 
-	查询审核过的用户数
+	<!--根据ID查询用户信息-->
+	<select id="getUserByParams" parameterType="com.microblue.dal.entity.UserInfo" resultMap="userInfo">
+		SELECT
+		<include refid="selectColumns" />
+		FROM
+		user_info
+		where 1=1 
+		<include refid="whereCondition"/>
+		</if>
+	</select>
+	
+	<!-- 查询审核过的用户数-->
+	<!-- 
 	<select id="queryListCount" parameterType="com.microvip.dal.entity.ModelInfo"	resultType="java.lang.Integer">
 		SELECT
 		count(id)
@@ -49,31 +91,14 @@
 	               and name like #{pattern_name} 
 	        </if>
 	</select>
-	查询签到过的用户数
-	<select id="getSignedCount" parameterType="java.lang.Integer"
-		resultType="java.lang.Integer">
-		SELECT
-		count(id)
-		FROM
-		model_info
-		where IsSignin = #{IsSignin}
+-->
 
-	</select>
-
-	根据ID查询用户信息
-	<select id="queryModelInfoById" parameterType="java.lang.Long" resultMap="modelInfo">
-		SELECT
-		<include refid="selectColumns" />
-		FROM
-		model_info
-		where id = #{id}
-	</select>
-	<insert id="addModelInfo" parameterType="com.microvip.dal.entity.ModelInfo">
+	<insert id="addUserInfo" parameterType="com.microblue.dal.entity.UserInfo">
 	<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
 		SELECT LAST_INSERT_ID()
 	</selectKey>
 	insert into 
-	model_info 
+	user_info 
 	(
 	<include refid="addColums" />
 	)  
@@ -101,74 +126,38 @@
 	</insert>
 	
 	
-	<update id="updateModelInfo" useGeneratedKeys="true" keyProperty="id"  parameterType="com.microvip.dal.entity.ModelInfo">
+	<update id="updateUserInfo" useGeneratedKeys="true" keyProperty="id"  parameterType="com.microblue.dal.entity.UserInfo">
 	    update 
-	    model_info 
-	    set name = #{name} 
-	     <if test="nick != null and nick != ''" >
-	               , nick = #{nick} 
-	    </if>
-	     <if test="wxNo != null and wxNo != ''" >
-	               , wx_no = #{wxNo} 
-	    </if>
-	     <if test="birth != null and birth != ''" >
-	               , birth = #{birth} 
-	    </if>
-	     <if test="height != null" >
-	               , height = #{height} 
-	    </if>
-	     <if test="weight != null" >
-	               , weight = #{weight} 
-	    </if>
-	     <if test="sanWei != null and sanWei != ''" >
-	               , san_wei = #{sanWei} 
-	    </if>
-	     <if test="age != null" >
-	               , age = #{age} 
-	    </if>
-	    <if test="sex != null" >
-	               , sex = #{sex} 
-	    </if>
-	     <if test="province != null and province != ''" >
-	               , province = #{province} 
-	    </if>
-	     <if test="city != null and city != ''" >
-	               , city = #{city} 
-	    </if>
-	     <if test="headImage != null and headImage != ''" >
-	               , head_image = #{headImage} 
-	    </if>
-	    <if test="phone != null and phone != ''" >
-	               , phone = #{phone} 
-	    </if>
-	     <if test="createTime != null and createTime != ''" >
-	               , create_time = #{createTime} 
-	    </if>
-	     <if test="modifyTime != null and modifyTime != ''" >
-	               , modify_time = #{modifyTime} 
-	    </if>
-	     <if test="synchStatus != null and synchStatus != ''" >
-	               , synch_status = #{synchStatus} 
-	    </if>
-	     <if test="isDeleted != null and isDeleted != ''" >
-	               , is_deleted = #{isDeleted} 
-	    </if>
-	     <if test="sort != null" >
-	               , sort = #{sort} 
-	    </if>
+	    user_info 
+	    set id = #{id} 
+	    <if test="userName != null and userName !=''" >
+		, user_name = #{userName}
+		</if>
+		<if test="isLogin != null" >
+		, is_login = #{isLogin}
+		</if>
+		<if test="createTime != null and createTime !=''" >
+		, create_time = #{createTime}
+		</if>
+		<if test="modifyTime != null and modifyTime !=''" >
+		, modify_time = #{modifyTime}
+		</if>
+		<if test="isDeleted != null" >
+		, is_deleted = #{isDeleted}
+		</if>
+		<if test="mobilePhone != null and mobilePhone !=''" >
+		, mobile_phone = #{mobilePhone}
+		</if>
 	    where id = #{id}
 	</update>
- 	<update id="updateModelPasswordById" useGeneratedKeys="true" keyProperty="id"  parameterType="com.microvip.dal.entity.ModelInfo">
+ 	<update id="updatePasswordById" useGeneratedKeys="true" keyProperty="id"  parameterType="com.microblue.dal.entity.UserInfo">
 	    update 
-	    model_info 
+	    user_info 
 	    set id = #{id}
 	    <if test="password != null and password != ''" >
 	               , password = #{password} 
 	    </if>
-	    <if test="salt != null and salt != ''" >
-	               , salt = #{salt} 
-	    </if>
 	    where id = #{id}
-	</update> -->
+	</update> 
 
 </mapper>
